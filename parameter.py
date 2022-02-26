@@ -22,8 +22,8 @@ def get_parameters():
     parser.add_argument('--beta2', type=float, default=0.999)
 
     # Testing setting
-    parser.add_argument('--test_size', type=int, default=2824)
-    parser.add_argument('--model_name', type=str, default='model.pth')
+    parser.add_argument('--test_size', type=int, default=2824) 
+    parser.add_argument('--model_name', type=str, default='model.pth') 
 
     # using pretrained
     parser.add_argument('--pretrained_model', type=int, default=None)
@@ -33,15 +33,15 @@ def get_parameters():
     parser.add_argument('--parallel', type=str2bool, default=False)
     parser.add_argument('--use_tensorboard', type=str2bool, default=False)
 
-    # Path NTU\sem2\AdComputerVision\assignment\train\train_image
-    parser.add_argument('--img_path', type=str, default="C:/Users/miao jing/Desktop/NTU/sem2/AdComputerVision/assignment/train/train_image")#'./Data_preprocessing/train_img')
-    parser.add_argument('--label_path', type=str, default="C:/Users/miao jing/Desktop/NTU/sem2/AdComputerVision/assignment/train/train_mask")#'./Data_preprocessing/train_label')
-    parser.add_argument('--log_path', type=str, default='./logs')
-    parser.add_argument('--model_save_path', type=str, default='./models')
-    parser.add_argument('--sample_path', type=str, default='./samples')
-    parser.add_argument('--test_image_path', type=str, default="C:/Users/miao jing/Desktop/NTU/sem2/AdComputerVision/assignment/val/val_image")#'./Data_preprocessing/test_img')
-    parser.add_argument('--test_label_path', type=str, default='C:/Users/miao jing/Desktop/NTU/sem2/AdComputerVision/assignment/val/val_mask')
-    parser.add_argument('--test_color_label_path', type=str, default='./test_color_visualize')
+    # Path
+    parser.add_argument('--img_path', type=str, default='faceParsing/Data_preprocessing/train_img')
+    parser.add_argument('--label_path', type=str, default='faceParsing/Data_preprocessing/train_label') 
+    parser.add_argument('--log_path', type=str, default='faceParsing/logs')
+    parser.add_argument('--model_save_path', type=str, default='faceParsing/models')
+    parser.add_argument('--sample_path', type=str, default='faceParsing/samples')
+    parser.add_argument('--test_image_path', type=str, default='faceParsing/Data_preprocessing/test_img') 
+    parser.add_argument('--test_label_path', type=str, default='faceParsing/test_results') 
+    parser.add_argument('--test_color_label_path', type=str, default='faceParsing/test_color_visualize') 
 
     # Step size
     parser.add_argument('--log_step', type=int, default=10)
