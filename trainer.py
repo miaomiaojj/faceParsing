@@ -8,7 +8,6 @@ from torch.autograd import Variable
 from torchvision.utils import save_image
 import numpy as np
 import torch.nn.functional as F
-
 from unet import unet
 from utils import *
 from torch.utils.tensorboard import SummaryWriter
