@@ -13,13 +13,13 @@ def read_masks(path):
 
 
 # replace submit_dir to your result path here
-submit_dir = 'xxxx'
+submit_dir = 'faceParsing/Data_preprocessing/val_result'
 
 # replace truth_dir to ground-truth path here
-truth_dir = 'xxxx'
+truth_dir = 'faceParsing/Data_preprocessing/val_label'
 
 # replace output_dir to the desired output path, and you will find 'scores.txt' containing the calcuated mIoU
-output_dir = 'xxx'
+output_dir = 'faceParsing/Data_preprocessing/val_score'
 
 if not os.path.isdir(submit_dir):
     print("%s doesn't exist" % submit_dir)
