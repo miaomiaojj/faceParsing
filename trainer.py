@@ -110,14 +110,15 @@ class Trainer(object):
                 elapsed = str(datetime.timedelta(seconds=elapsed))
                 print("Elapsed [{}], G_step [{}/{}], Cross_entrophy_loss: {:.4f}".
                       format(elapsed, step + 1, self.total_step, c_loss.data))
-                train_loss["step"].append(step)
-                train_loss["loss"].append(c_loss.data)
+                
 
             label_batch_predict = generate_label(labels_predict, self.imsize)
             label_batch_real = generate_label(labels_real, self.imsize)
 
             # scalr info on tensorboardX
             writer.add_scalar('Loss/Cross_entrophy_loss', c_loss.data, step)
+            train_loss["step"].append(step)
+            train_loss["loss"].append(c_loss.data)
 
             # image infor on tensorboardX
             img_combine = imgs[0]
