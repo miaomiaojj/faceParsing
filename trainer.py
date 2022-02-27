@@ -76,7 +76,7 @@ class Trainer(object):
 
         # Start time
         start_time = time.time()
-		train_loss={"step":[],"loss":[]}
+        train_loss = {"step": [], "loss": []}
         for step in range(start, self.total_step):
 
             self.G.train()
@@ -110,6 +110,8 @@ class Trainer(object):
                 elapsed = str(datetime.timedelta(seconds=elapsed))
                 print("Elapsed [{}], G_step [{}/{}], Cross_entrophy_loss: {:.4f}".
                       format(elapsed, step + 1, self.total_step, c_loss.data))
+                train_loss["step"].append(step)
+                train_loss["loss"].append(c_loss.data)
 
             label_batch_predict = generate_label(labels_predict, self.imsize)
             label_batch_real = generate_label(labels_real, self.imsize)
@@ -140,6 +142,10 @@ class Trainer(object):
             if (step + 1) % model_save_step == 0:
                 torch.save(self.G.state_dict(),
                            os.path.join(self.model_save_path, '{}_G.pth'.format(step + 1)))
+        with open("faceParsing/train_loss.csv", "wb") as outfile:
+            writer = csv.writer(outfile)
+            writer.writerow(train_loss.keys())
+            writer.writerows(zip(*train_loss.values()))
 
     def build_model(self):
 
