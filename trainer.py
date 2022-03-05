@@ -130,8 +130,7 @@ class Trainer(object):
                 img_combine = torch.cat([img_combine, imgs[i]], 2)
                 real_combine = torch.cat([real_combine, label_batch_real[i]], 2)
                 predict_combine = torch.cat([predict_combine, label_batch_predict[i]], 2)
-            df = pd.DataFrame(train_loss)
-            df.to_csv('train_loss.csv', index=False)
+
 
             # Sample images
             if (step + 1) % self.sample_step == 0:
@@ -144,10 +143,8 @@ class Trainer(object):
             if (step + 1) % model_save_step == 0:
                 torch.save(self.G.state_dict(),
                            os.path.join(self.model_save_path, '{}_G.pth'.format(step + 1)))
-        with open("faceParsing/train_loss.csv", "wb") as outfile:
-            w = csv.writer(outfile)
-            w.writerow(train_loss.keys())
-            w.writerows(zip(*train_loss.values()))
+        df = pd.DataFrame(train_loss)
+        df.to_csv('train_loss.csv', index=False)
 
     def build_model(self):
 

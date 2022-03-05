@@ -101,6 +101,7 @@ class Tester(object):
             imgs = []
             for j in range(self.batch_size):
                 path = test_paths[i * self.batch_size + j]
+                print(path)
                 img = transform(Image.open(path))
                 imgs.append(img)
             imgs = torch.stack(imgs)

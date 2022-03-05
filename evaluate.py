@@ -13,7 +13,7 @@ def read_masks(path):
 
 
 # replace submit_dir to your result path here
-submit_dir = 'faceParsing/Data_preprocessing/val_result'
+submit_dir = 'faceParsing/Data_preprocessing/val_label'#'faceParsing/test_color_visualize'
 
 # replace truth_dir to ground-truth path here
 truth_dir = 'faceParsing/Data_preprocessing/val_label'
