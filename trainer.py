@@ -11,6 +11,7 @@ from unet import unet
 from utils import *
 from torch.utils.tensorboard import SummaryWriter
 import csv
+import pandas as pd
 
 writer = SummaryWriter('runs/training')
 
@@ -129,9 +130,8 @@ class Trainer(object):
                 img_combine = torch.cat([img_combine, imgs[i]], 2)
                 real_combine = torch.cat([real_combine, label_batch_real[i]], 2)
                 predict_combine = torch.cat([predict_combine, label_batch_predict[i]], 2)
-            writer.add_image('imresult/img', (img_combine.data + 1) / 2.0, step)
-            writer.add_image('imresult/real', real_combine, step)
-            writer.add_image('imresult/predict', predict_combine, step)
+            df = pd.DataFrame(train_loss)
+            df.to_csv('train_loss.csv', index=False)
 
             # Sample images
             if (step + 1) % self.sample_step == 0:
