@@ -13,10 +13,10 @@ def read_masks(path):
 
 
 # replace submit_dir to your result path here
-submit_dir = 'faceParsing/Data_preprocessing/val_label'#'faceParsing/test_color_visualize'
+submit_dir = 'faceParsing/Data_preprocessing/val_label'
 
 # replace truth_dir to ground-truth path here
-truth_dir = 'faceParsing/Data_preprocessing/val_label'
+truth_dir = 'faceParsing/Data_preprocessing/val_label_truth'
 
 # replace output_dir to the desired output path, and you will find 'scores.txt' containing the calcuated mIoU
 output_dir = 'faceParsing/Data_preprocessing/val_score'
