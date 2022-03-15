@@ -78,7 +78,7 @@ class Trainer(object):
             start = 0
 
         transforms=torch.nn.Sequential(
-            T.RandomCrop(28),
+            T.RandomCrop(512),
             T.RandomHorizontalFlip(p=0.3),
             T.RandomErasing(p=1, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0, inplace=False)
         )
