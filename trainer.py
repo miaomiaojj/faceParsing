@@ -12,6 +12,7 @@ from utils import *
 from torch.utils.tensorboard import SummaryWriter
 import csv
 import pandas as pd
+import torchvision.transforms as T
 
 writer = SummaryWriter('runs/training')
 
