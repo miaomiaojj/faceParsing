@@ -39,9 +39,9 @@ def get_parameters():
     parser.add_argument('--log_path', type=str, default='faceParsing/logs')
     parser.add_argument('--model_save_path', type=str, default='faceParsing/models')
     parser.add_argument('--sample_path', type=str, default='faceParsing/samples')
-    parser.add_argument('--test_image_path', type=str, default='faceParsing/Data_preprocessing/test_img') 
-    parser.add_argument('--test_label_path', type=str, default='faceParsing/test_results') 
-    parser.add_argument('--test_color_label_path', type=str, default='faceParsing/test_color_visualize') 
+    parser.add_argument('--test_image_path', type=str, default='faceParsing/Data_preprocessing/val_img')
+    parser.add_argument('--test_label_path', type=str, default='faceParsing/Data_preprocessing/val_label')
+    parser.add_argument('--test_color_label_path', type=str, default='faceParsing/Data_preprocessing/val_result')
 
     # Step size
     parser.add_argument('--log_step', type=int, default=10)
