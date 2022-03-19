@@ -14,6 +14,10 @@ import csv
 import pandas as pd
 import torchvision.transforms as T
 
+import sys
+from PIL import Image
+
+
 writer = SummaryWriter('runs/training')
 
 
@@ -53,6 +57,7 @@ class Trainer(object):
         # Path
         self.log_path = os.path.join(config.log_path, self.version)
         self.sample_path = os.path.join(config.sample_path, self.version)
+        self.sample_plain_path = os.path.join(config.sample_plain_path, self.version)
         self.model_save_path = os.path.join(config.model_save_path, self.version)
 
         self.build_model()
@@ -104,7 +109,7 @@ class Trainer(object):
             labels_real = labels_real.scatter_(1, labels.data.long().cuda(), 1.0)
 
             imgs = imgs.cuda()
-            imgs = transforms(imgs)
+            #imgs = transforms(imgs)
             # ================== Train G =================== #
             labels_predict = self.G(imgs)
 
@@ -130,6 +135,8 @@ class Trainer(object):
             train_loss["step"].append(step)
             train_loss["loss"].append(c_loss.data)
 
+
+
             # image infor on tensorboardX
             img_combine = imgs[0]
             real_combine = label_batch_real[0]
@@ -143,10 +150,19 @@ class Trainer(object):
             # Sample images
             if (step + 1) % self.sample_step == 0:
                 labels_sample = self.G(imgs)
+
+                labels_plain_sample = generate_label_plain(labels_sample, self.imsize)
+                labels_plain_sample = torch.from_numpy(labels_plain_sample.numpy())
+                save_image(denorm(labels_plain_sample.data),
+                           os.path.join(self.sample_plain_path, '{}_predict.png'.format(step + 1)))
+
+
                 labels_sample = generate_label(labels_sample, self.imsize)
                 labels_sample = torch.from_numpy(labels_sample.numpy())
                 save_image(denorm(labels_sample.data),
                            os.path.join(self.sample_path, '{}_predict.png'.format(step + 1)))
+
+                self.calculate_miou(self.label_path, self.sample_plain_path)
 
             if (step + 1) % model_save_step == 0:
                 torch.save(self.G.state_dict(),
@@ -183,3 +199,54 @@ class Trainer(object):
     def save_sample(self, data_iter):
         real_images, _ = next(data_iter)
         save_image(denorm(real_images), os.path.join(self.sample_path, 'real.png'))
+
+    def read_masks(self,path):
+        mask = Image.open(path)
+        mask = np.array(mask)
+        return mask
+        
+    def calculate_miou(self,truth_dir,submit_dir):
+        miou_output=[]
+
+        if not os.path.isdir(submit_dir):
+            print("%s doesn't exist" % submit_dir)
+
+        if os.path.isdir(submit_dir) and os.path.isdir(truth_dir):
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+
+            submit_dir_list = os.listdir(submit_dir)
+            if len(submit_dir_list) == 1:
+                submit_dir = os.path.join(submit_dir, "%s" % submit_dir_list[0])
+                assert os.path.isdir(submit_dir)
+
+            area_intersect_all = np.zeros(19)
+            area_union_all = np.zeros(19)
+            for idx in range(5000):
+                pred_mask = self.read_masks(os.path.join(submit_dir, "%s.png" % idx))
+                gt_mask = self.read_masks(os.path.join(truth_dir, "%s.png" % idx))
+                for cls_idx in range(19):
+                    area_intersect = np.sum(
+                        (pred_mask == gt_mask) * (pred_mask == cls_idx))
+
+                    area_pred_label = np.sum(pred_mask == cls_idx)
+                    area_gt_label = np.sum(gt_mask == cls_idx)
+                    area_union = area_pred_label + area_gt_label - area_intersect
+
+                    area_intersect_all[cls_idx] += area_intersect
+                    area_union_all[cls_idx] += area_union
+
+            iou_all = area_intersect_all / area_union_all * 100.0
+            miou = iou_all.mean()
+            miou_output.append(miou)
+
+        df = pd.DataFrame(miou_output)
+        df.to_csv('miou_output.csv', index=False)
+
+            # Create the evaluation score path
+            #output_filename = os.path.join(output_dir, 'scores.txt')
+
+            #with open(output_filename, 'w') as f3:
+            #    f3.write('mIOU: {}'.format(miou))
+
+        
