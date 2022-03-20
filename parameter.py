@@ -13,7 +13,7 @@ def get_parameters():
     parser.add_argument('--version', type=str, default='parsenet')
 
     # Training setting
-    parser.add_argument('--total_step', type=int, default=100000, help='how many times to update the generator')
+    parser.add_argument('--total_step', type=int, default=20000, help='how many times to update the generator')
     parser.add_argument('--batch_size', type=int, default=20)#64)
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument('--g_lr', type=float, default=0.0002)
@@ -39,7 +39,7 @@ def get_parameters():
     parser.add_argument('--log_path', type=str, default='faceParsing/logs')
     parser.add_argument('--model_save_path', type=str, default='faceParsing/models')
     parser.add_argument('--sample_path', type=str, default='faceParsing/samples')
-    parser.add_argument('--sample_plain_path', type=str, default='faceParsing/plain_samples')
+    parser.add_argument('--sample_plain_path', type=str, default='faceParsing/Data_preprocessing/samples_plain')
     parser.add_argument('--test_image_path', type=str, default='faceParsing/Data_preprocessing/val_img')
     parser.add_argument('--test_label_path', type=str, default='faceParsing/Data_preprocessing/val_label')
     parser.add_argument('--test_color_label_path', type=str, default='faceParsing/Data_preprocessing/val_result')
